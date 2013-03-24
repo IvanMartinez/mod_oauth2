@@ -1,3 +1,5 @@
 ebin
 /src
 *~
+/deps/meck
+/deps/oauth

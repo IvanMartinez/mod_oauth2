@@ -17,6 +17,8 @@
 %% See the License for the specific language governing permissions and
 %% limitations under the License.
 
+%% "Request Tokens are only good for obtaining User approval" (Step 1, before user authorization)
+
 -module(controller_oauth2_request_token).
 
 -author("Arjan Scherpenisse <arjan@scherpenisse.net>").

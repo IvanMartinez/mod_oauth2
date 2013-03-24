@@ -328,9 +328,9 @@ observe_service_authorize(#service_authorize{service_module=Module}, Context) ->
 
 observe_admin_menu(admin_menu, Acc, Context) ->
     [
-     #menu_item{id=admin_oauth,
+     #menu_item{id=admin_oauth2,
                 parent=admin_auth,
-                label=?__("API access", Context),
-                url={admin_oauth},
+                label=?__("API access 2", Context),
+                url={admin_oauth2},
                 visiblecheck={acl, use, ?MODULE}}
      |Acc].

@@ -17,6 +17,8 @@
 %% See the License for the specific language governing permissions and
 %% limitations under the License.
 
+%% Doesn't seem related to the flow, it handles the admin operations.
+
 -module(controller_oauth2_apps).
 -author("Arjan Scherpenisse <arjan@scherpenisse.net>").
 

@@ -17,6 +17,8 @@
 %% See the License for the specific language governing permissions and
 %% limitations under the License.
 
+%% "Access Tokens are used to access Protected Resources, in this case Jane's photos" (Step 3, getting access token).
+
 -module(controller_oauth2_access_token).
 
 -author("Arjan Scherpenisse <arjan@scherpenisse.net>").
@@ -60,7 +62,7 @@ response(ReqData, Context) ->
     case mod_oauth2:request_is_signed(ReqData) of
         false ->
             % Request was not signed.
-            mod_oauth2:authenticate("Not an OAuth request.", ReqData, Context);
+            mod_oauth2:authenticate("Not an OAuth2 request.", ReqData, Context);
         true ->
             mod_oauth2:serve_oauth(ReqData, Context, 
                 fun(URL, Params, Consumer, Signature) ->

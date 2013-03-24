@@ -17,6 +17,8 @@
 %% See the License for the specific language governing permissions and
 %% limitations under the License.
 
+%% It handles the authorization form "oauth2_authorize.tpl", where the user authorizes applications (Step 2, user authorization).
+
 -module(controller_oauth2_authorize).
 -author("Arjan Scherpenisse <arjan@scherpenisse.net>").
 
