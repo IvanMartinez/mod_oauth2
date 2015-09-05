@@ -1,9 +1,9 @@
-%% @author Arjan Scherpenisse <arjan@scherpenisse.net>
-%% @copyright 2009 Arjan Scherpenisse
-%% Date: 2009-10-02
-%% @doc OAuth.
+%% @author Ivan Martinez <https://github.com/IvanMartinez>
+%% @copyright 2014 Ivan Martinez, 2009 Arjan Scherpenisse
+%% Date: 2004-01-01
+%% @doc OAuth2.
 
-%% Copyright 2009 Arjan Scherpenisse
+%% Copyright 2014 Ivan Martinez, 2009 Arjan Scherpenisse
 %%
 %% Licensed under the Apache License, Version 2.0 (the "License");
 %% you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 %% limitations under the License.
 
 -module(mod_oauth2).
--author("Arjan Scherpenisse <arjan@scherpenisse.net>").
+-author("Ivan Martinez <https://github.com/IvanMartinez>").
 -behaviour(gen_server).
 
 -mod_title("OAuth2").
@@ -38,6 +38,7 @@
          to_oauth_consumer/2,
          str_value/2,
          test/0,
+         authenticate/3,
          observe_service_authorize/2,
          observe_admin_menu/3
 ]).
@@ -67,6 +68,7 @@ init(Args) ->
     process_flag(trap_exit, true),
     {context, Context} = proplists:lookup(context, Args),
     install_check(Context),
+    application:set_env(oauth2, backend, m_oauth2_backend),
     {ok, []}.
 
 %% @spec handle_call(Request, From, State) -> {reply, Reply, State} |
@@ -196,7 +198,7 @@ to_oauth_params(ReqData) ->
                      Req;
                  true ->
                      H = string:substr(AuthHeader, 7),
-                     oauth_uri:params_from_header_string(H) ++ Req
+                     oauth:header_params_decode(H) ++ Req
              end,
     strip_params(Params).
 
@@ -211,7 +213,7 @@ oauth_param_auth_header(Param, AuthHeader) ->
         nomatch ->
             undefined;
         {match, [_All, {Start, Len}]} ->
-            oauth_uri:decode(string:substr(AuthHeader, Start+1, Len))
+            z_url:url_decode(string:substr(AuthHeader, Start+1, Len))
     end.
 
 oauth_param(Param, ReqData) ->
@@ -259,11 +261,11 @@ int_value(Key, From) ->
 %% Convert a consumer record from the database representation to the presentation that erlang-oauth understands.
 
 to_oauth_consumer(Consumer, "PLAINTEXT") ->
-    {str_value(consumer_key, Consumer), str_value(consumer_secret, Consumer), plaintext};
+    {str_value(consumer_key, Consumer), str_value(client_secret, Consumer), plaintext};
 to_oauth_consumer(Consumer, "HMAC-SHA1") ->
-    {str_value(consumer_key, Consumer), str_value(consumer_secret, Consumer), hmac_sha1};
+    {str_value(consumer_key, Consumer), str_value(client_secret, Consumer), hmac_sha1};
 to_oauth_consumer(Consumer, "RSA-SHA1") ->
-    {str_value(consumer_key, Consumer), str_value(consumer_secret, Consumer), rsa_sha1}.
+    {str_value(consumer_key, Consumer), str_value(client_secret, Consumer), rsa_sha1}.
 
 
 
@@ -278,11 +280,11 @@ authenticate(Reason, ReqData, Context) ->
 
 %% @doc Check is the shop module has been installed.  If not then install all db tables and rscs.
 install_check(Context) ->
-    case z_db:table_exists("oauth_application_registry", Context) of
+    case z_db:table_exists("oauth2_application_registry", Context) of
         true -> 
             ok;
         false ->
-            oauth_install_data:install(Context)
+            oauth2_install_data:install(Context)
     end.
 
 test() ->
@@ -330,7 +332,7 @@ observe_admin_menu(admin_menu, Acc, Context) ->
     [
      #menu_item{id=admin_oauth2,
                 parent=admin_auth,
-                label=?__("API access 2", Context),
+                label=?__("OAuth2 API Access", Context),
                 url={admin_oauth2},
                 visiblecheck={acl, use, ?MODULE}}
      |Acc].

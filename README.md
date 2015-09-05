@@ -1,5 +1,5 @@
 OAauth2 authentication module for Zotonic.
-==========================================
+=====================================
 
-At the moment this is just mod_oauth with different module and file names. It uses the same database tables as mod_oauth. It should work as usual (OAuth v1 authentication).
-I have decided to make a generic Webmachine OAuth2 server before continuing with this development. Check my progress in https://github.com/IvanMartinez/oauth2_webmachine .
+Unfinished implementation of OAuth2's Authorization Code flow.
+This module is based on the existing mod_oauth and my generic Webmachine OAuth2 server: https://github.com/IvanMartinez/oauth2_webmachine .

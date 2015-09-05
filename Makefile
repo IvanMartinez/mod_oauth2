@@ -1,5 +1,5 @@
 all:
-	$(MAKE) -C deps/erlang-oauth
+	$(MAKE) -C deps/oauth2
 
 clean:
-	$(MAKE) -C deps/erlang-oauth clean
+	$(MAKE) -C deps/oauth2 clean

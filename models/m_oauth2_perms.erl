@@ -70,7 +70,7 @@ m_value(#m{value=_Module}, _Context) ->
 %% Get permissions for consumer <Id>.
 %%
 get(Id, Context) ->
-    z_db:assoc_props("SELECT * FROM oauth_application_perm WHERE application_id = $1", [Id], Context).
+    z_db:assoc_props("SELECT * FROM oauth2_application_perm WHERE application_id = $1", [Id], Context).
 
 %%
 %% *All* applicable permissions
@@ -84,7 +84,7 @@ insert_all([], _Id, _Context) ->
 insert_all([[] | Rest], Id, Context) ->
     insert_all(Rest, Id, Context);
 insert_all([Perm | Rest], Id, Context) ->
-    z_db:q("INSERT INTO oauth_application_perm (application_id, perm) VALUES ($1, $2)", [Id, Perm], Context),
+    z_db:q("INSERT INTO oauth2_application_perm (application_id, perm) VALUES ($1, $2)", [Id, Perm], Context),
     insert_all(Rest, Id, Context).
     
 
@@ -92,7 +92,7 @@ insert_all([Perm | Rest], Id, Context) ->
 %% Set permissions for consumer <Id>.
 %%
 set(Id, Perms, Context) ->
-    z_db:q("DELETE FROM oauth_application_perm WHERE application_id = $1", [Id], Context),
+    z_db:q("DELETE FROM oauth2_application_perm WHERE application_id = $1", [Id], Context),
     z_depcache:flush({oauth_consumer, Id}, Context),
     insert_all(Perms, Id, Context).
 

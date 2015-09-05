@@ -3,8 +3,8 @@
         <tr>
             <th width="15%">{_ Title _}</th>
             <th width="30%">{_ Access to _}</th>
-            <th width="20%">{_ Consumer key _}</th>
-            <th width="30%">{_ Consumer secret _}</th>
+            <th width="20%">{_ Client ID _}</th>
+            <th width="30%">{_ Client secret _}</th>
         </tr>
     </thead>
 
@@ -21,16 +21,16 @@
                 {% endfor %}
             </td>
             <td>
-                <tt style="font-size: 70%">{{ app.consumer_key }}</tt>
+                <tt style="font-size: 70%">{{ app.client_id }}</tt>
             </td>
             <td>
-                <div class="pull-right">
-                    {% button class="btn btn-mini" text=_"Edit" postback={start_edit_app id=app.id} title=_"Change the title, description and access permissions of this application." %}
-                    {% button class="btn btn-mini" text=_"Users" postback={start_tokens id=app.id} title=_"Show applications/users that are using this key" %}
-                    {% button class="btn btn-mini" text=_"Delete" postback={start_del_app id=app.id} %}
+                <div class="pull-right buttons">
+                    {% button class="btn btn-default btn-xs" text=_"Edit" postback={start_edit_app id=app.id} title=_"Change the title, description and access permissions of this application." %}
+                    {% button class="btn btn-default btn-xs" text=_"Users" postback={start_tokens id=app.id} title=_"Show applications/users that are using this key" %}
+                    {% button class="btn btn-default btn-xs" text=_"Delete" postback={start_del_app id=app.id} %}
                 </div>
 
-                <tt style="font-size: 70%">{{ app.consumer_secret }}</tt>
+                <tt style="font-size: 70%">{{ app.client_secret }}</tt>
             </td>
         </tr>
         {% wire id=#tr.id postback={start_edit_app id=id} %}

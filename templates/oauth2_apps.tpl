@@ -3,9 +3,9 @@
 {% block title %}{_ OAuth applications _}{% endblock %}
 
 {% block content %}
-<div class="edit-header">
+<div class="admin-header">
         
-    <h2>{_ Registered OAuth applications _}</h2>
+    <h2>{_ Registered OAuth2 applications _}</h2>
     <p>
         {_ This page allows you to register API keys with which 3rd parties can gain access to specific parts of the API and database. _}
     </p>
@@ -17,7 +17,7 @@
 
 <div>
     <div id="oauth-apps">
-        {% include "_oauth_apps_list.tpl" %}
+        {% include "_oauth2_apps_list.tpl" %}
     </div>
 </div>
 

@@ -3,3 +3,6 @@ ebin
 *~
 /deps/meck
 /deps/oauth
+.settings
+.project
+rebar

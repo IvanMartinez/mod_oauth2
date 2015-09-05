@@ -1,7 +1,7 @@
-{% with m.oauth2_app.info[id] as app %}
-{% with m.oauth2_app.tokens[id] as tokens %}
+{% with m.oauth_app.info[id] as app %}
+{% with m.oauth_app.tokens[id] as tokens %}
 
-<h2>{{ app.application_title }}</h2>
+<h4>{{ app.application_title }}</h4>
 
 {% if delete %}
 {% if tokens %}
@@ -39,12 +39,12 @@
 {% if delete %}
 <p>{_ Do you really want to delete this application? _}</p>
 <div class="modal-footer">
-    {% button class="btn" action={dialog_close} text=_"Cancel" tag="a" %}
+    {% button class="btn btn-default" action={dialog_close} text=_"Cancel" tag="a" %}
     {% button class="btn btn-primary" text=_"Delete this application!" postback={confirm_del_app id=id} %}
 </div>
 {% else %}
 <div class="modal-footer">
-    {% button class="btn" action={dialog_close} text=_"Close" %}
+    {% button class="btn btn-default" action={dialog_close} text=_"Close" %}
 </div>
 {% endif %}
 
